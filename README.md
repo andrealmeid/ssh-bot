@@ -47,3 +47,8 @@ Agora executamos o programa:
 $ python command.py
 ```
 O programa vai abrir e vai automaticamente verificar o arquivo bots.txt em busca dos hosts e mostrar o estado de cada um. O programa já vem com algumas opções instaladas, incluindo o `cmd`, onde você pode executar qualquer comando shell nos hosts e o comando `Ares`, onde você pode infectar o host com a botnet [Ares](https://github.com/andrealmeid/Ares).
+
+#### Referências
+https://github.com/mh4x0f/botdr4g0n
+
+http://www.paramiko.org/
