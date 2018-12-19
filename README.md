@@ -27,8 +27,41 @@ Then, install the dependencies:
 $ pip3 install -r requirements.txt
 ```
 
-## FAQ
+### Tutorial
 
+Let's create a fake victim to our botnet. Make sure you have your SSH server
+running on your machine before procedure. In Arch Linux, this is simple as
+`sudo systemctl start sshd.service`.
+
+1. Create a new user and set a password:
+
+```shell
+$ sudo useradd -g users -s /bin/bash user
+$ sudo passwd user
+```
+
+2. Insert this new user on the database:
+
+```shell
+$ echo "user@127.0.0.1 <user password>" > bots.txt
+```
+
+3. Give life to the monster:
+
+```shell
+$ python3 command.py
+```
+
+The program will try to connect to all the hosts. In our case, only with the
+`user`. If everything is fine, the status of our bot should be `UP`.
+
+4. Ok, but it's _really_ working?
+
+Use the command `cmd` and then `whoami`. It should output `user`
+
+5. Add some remote users and get some fun.
+
+## FAQ
 ### What's a botnet?
 
 A botnet is a distributed system made of hijacked computers. The bots 
