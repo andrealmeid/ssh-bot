@@ -2,6 +2,10 @@
 
 _ssh-bot_ is a botnet command and control that uses SSH to communicate.
 
+- [Install and use](#install-and-use)
+- [FAQ](#faq)
+- [License](#license)
+
 ## Install and Use
 ### Dependencies
 
@@ -11,6 +15,7 @@ _ssh-bot_ is a botnet command and control that uses SSH to communicate.
 - SSH client and server
     - [Ubuntu tutorial](https://help.ubuntu.com/lts/serverguide/openssh-server.html)
     - [Arch Linux tutorial](https://wiki.archlinux.org/index.php/OpenSSH#Installation)
+
 **Python dependecies:**
 
 I recommend you to create a Python virtual environment before install the
@@ -102,3 +107,7 @@ password.
 SSH is secure and encrypted, so it will prevent some analysis on your packet
 content. Although, SSH connections could draw a lot of attention if the
 victim's servers isn't used to have it.
+
+## License
+
+[GPL-3.0](LICENSE)
