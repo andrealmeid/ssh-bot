@@ -2,28 +2,26 @@
 
 _ssh-bot_ is a botnet command and control that uses SSH to communicate.
 
-## Install
-
-### Dependecies
+## Install and Use
+### Dependencies
 
 **System dependecies:**
 
 - Python3
-- SSH client and server 
-[Ubuntu tutorial](https://help.ubuntu.com/lts/serverguide/openssh-server.html)
-[Arch Linux tutorial](https://wiki.archlinux.org/index.php/OpenSSH#Installation)
-
+- SSH client and server
+    - [Ubuntu tutorial](https://help.ubuntu.com/lts/serverguide/openssh-server.html)
+    - [Arch Linux tutorial](https://wiki.archlinux.org/index.php/OpenSSH#Installation)
 **Python dependecies:**
 
 I recommend you to create a Python virtual environment before install the
-dependecies:
+dependencies:
 
 ```shell
 $ python3 -m venv env
 $ source env/bin/activate
 ```
 
-Then, install the dependecies:
+Then, install the dependencies:
 
 ```shell
 $ pip3 install -r requirements.txt
