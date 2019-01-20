@@ -1,54 +1,113 @@
 # ssh-bot
 
-_ssh-bot_ é um programa de comando e controle de uma botnet baseada em comunicação por SSH.
-SSH é um protocolo de comunicação entre dois computadores, muito utilizado para usuários acessarem remotamente outros computadores ou servidores.
-Essa botnet não contém um suporte a propagação do malware, mas os requisitos para acessar uma vítima são:
-- O computador da vítima precisa ter um servidor ssh operando;
-- Ter o nome de usuário e senha da vítima para autentificação.
+_ssh-bot_ is a botnet command and control that uses SSH to communicate.
+
+- [Install and use](#install-and-use)
+- [FAQ](#faq)
+- [License](#license)
+
+## Install and Use
+### Dependencies
+
+**System dependecies:**
+
+- Python3
+- SSH client and server
+    - [Ubuntu tutorial](https://help.ubuntu.com/lts/serverguide/openssh-server.html)
+    - [Arch Linux tutorial](https://wiki.archlinux.org/index.php/OpenSSH#Installation)
+
+**Python dependecies:**
+
+I recommend you to create a Python virtual environment before install the
+dependencies:
+
+```shell
+$ python3 -m venv env
+$ source env/bin/activate
+```
+
+Then, install the dependencies:
+
+```shell
+$ pip3 install -r requirements.txt
+```
 
 ### Tutorial
-Nesse tutorial, testaremos em um mesmo computador o _bot_ e o _C&C_.
 
-#### Criando o usuário do bot
-Primeiro, vamos criar um usuário para o bot no computador:
-```bash
-$ sudo useradd -m -g users -G wheel -s /bin/bash user
-```
-Adicione uma senha:
-```bash
+Let's create a fake victim to our botnet. Make sure you have your SSH server
+running on your machine before procedure. In Arch Linux, this is simple as
+`sudo systemctl start sshd.service`.
+
+1. Create a new user and set a password:
+
+```shell
+$ sudo useradd -g users -s /bin/bash user
 $ sudo passwd user
 ```
-Agora, para testar, vamos acessar seu usuário:
-```bash
-$ su user
-```
-Se a criação foi bem sucedida, você estará na pasta `home` do nosso usuário "vítma".
 
-#### Ligando o servidor ssh
-Verifique se você tem um servidor ssh instalado e rodando no seu computador. [Aqui](https://www.howtogeek.com/howto/ubuntu/setup-openssh-server-on-ubuntu-linux/) está um exemplo de como fazer isso no Ubuntu. Para testar se está funcionando, tente acessar o novo usuário:
-```bash
-ssh user@localhost
-```
-Como você nunca acessou esse host antes, você precisa aceitar a conexão. Digite a senha que você escolheu no passo anterior.
+2. Insert this new user on the database:
 
-#### Usando o ssh-bot
-Agora que já temos um usuário para testar, vamos usar o programa de comando e controle.
-As dependências do programa são:
-- Python 3;
-- paramiko, para conexão ssh;
-- tabulate, para impressão de texto na tela.
-
-Inserimos as credencias dos bots em `bots.txt`, desta forma:
+```shell
+$ echo "user@127.0.0.1 <user password>" > bots.txt
 ```
-user@host password
-```
-Agora executamos o programa:
-```bash
-$ python command.py
-```
-O programa vai abrir e vai automaticamente verificar o arquivo bots.txt em busca dos hosts e mostrar o estado de cada um. O programa já vem com algumas opções instaladas, incluindo o `cmd`, onde você pode executar qualquer comando shell nos hosts e o comando `Ares`, onde você pode infectar o host com a botnet [Ares](https://github.com/andrealmeid/Ares).
 
-#### Referências
-https://github.com/mh4x0f/botdr4g0n
+3. Give life to the monster:
 
-http://www.paramiko.org/
+```shell
+$ python3 command.py
+```
+
+The program will try to connect to all the hosts. In our case, only with the
+`user`. If everything is fine, the status of our bot should be `UP`.
+
+4. Ok, but it's _really_ working?
+
+Use the command `cmd` and then `whoami`. It should output `user`
+
+5. Add some remote users and get some fun.
+
+## FAQ
+### What's a botnet?
+
+A botnet is a distributed system made of hijacked computers. The bots
+(infected machines) maintain a connection with the botnet administrator, who
+can fire commands to the bots, like "Do a DDoS attack at `<host>`", "Mine
+<cripto-coin>", "Spy the victim", etc.
+
+There is a few botnet architectures, and this one is a "Client-server" model.
+
+### So, this is a dangerous malware?
+
+Not exactly. This code doesn't contains any sort of spread function or
+auto-attack, so it won't take control of your network or steal your credentials
+by default. To case any harm, the user need to explicitly command or modify
+the code to do so.
+
+### Is this illegal?
+
+Write code that connects to machines which you do have authorization to
+connect isn't illegal. But, connecting to machines where you do not have such
+permission, probably is.
+
+This software was created for study reasons and I do not take responsibility
+for any crazy action you take with this. Have fun!
+
+### Is this technically practical?
+
+To turn on a SSH server or create new users, one needs to have admin rights on
+that machine. So, you already need to exploit some kind of vulnerability in
+order to connect a new machine, and will probably involve privilege escalation.
+
+If the machine already have a SSH server running, you may have luck that the
+system has an old and vulnerable SSH version. Otherwise, you will need to
+enter by others breach, use social engineering or
+ [brute force](https://charlesreid1.com/wiki/Metasploitable/SSH/Exploits) the
+password.
+
+SSH is secure and encrypted, so it will prevent some analysis on your packet
+content. Although, SSH connections could draw a lot of attention if the
+victim's servers isn't used to have it.
+
+## License
+
+[GPL-3.0](LICENSE)
